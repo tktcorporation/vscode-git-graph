@@ -86,6 +86,10 @@ export interface GraphData {
 	stashes: GitStash[];
 	moreCommitsAvailable: boolean;
 	error: string | null;
+	/** Pre-computed graph lanes (from Rust native module). If present, webview skips computation. */
+	graphLanes?: number[][];
+	/** Maximum active lanes for the pre-computed graph. */
+	maxLanes?: number;
 }
 
 // Message protocol between extension and webview

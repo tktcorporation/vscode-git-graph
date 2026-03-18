@@ -16,9 +16,16 @@ const configs = [
       filename: 'extension.js',
       libraryTarget: 'commonjs2'
     },
-    externals: {
-      vscode: 'commonjs vscode'
-    },
+    externals: [
+      { vscode: 'commonjs vscode' },
+      // Don't bundle .node native modules - they're loaded at runtime
+      function({ request }, callback) {
+        if (/\.node$/.test(request)) {
+          return callback(null, 'commonjs ' + request);
+        }
+        callback();
+      }
+    ],
     resolve: {
       extensions: ['.ts', '.js']
     },

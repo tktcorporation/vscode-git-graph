@@ -1,0 +1,10 @@
+{
+  "name": "fast-git-graph-native",
+  "version": "0.1.0",
+  "private": true,
+  "napi": {
+    "name": "fast-git-graph-native",
+    "triples": {}
+  },
+  "main": "fast-git-graph-native.linux-x64-gnu.node"
+}

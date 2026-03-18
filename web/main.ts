@@ -44,6 +44,10 @@ interface GraphData {
 	stashes: Array<{ hash: string; selector: string; message: string }>;
 	moreCommitsAvailable: boolean;
 	error: string | null;
+	/** Pre-computed graph lanes from Rust native module */
+	graphLanes?: number[][];
+	/** Maximum active lanes */
+	maxLanes?: number;
 }
 
 interface ExtensionConfig {
@@ -706,8 +710,13 @@ function onLoadCommits(data: GraphData): void {
 	// Update branch select
 	updateBranchSelect(data.branches);
 
-	// Compute graph layout
-	computeGraphLanes();
+	// Use pre-computed lanes from Rust native module if available
+	if (data.graphLanes && data.maxLanes !== undefined) {
+		graphLanes = data.graphLanes;
+		maxLanes = data.maxLanes;
+	} else {
+		computeGraphLanes();
+	}
 
 	// Reset scroll and render
 	scrollTop = 0;

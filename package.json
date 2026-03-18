@@ -133,13 +133,18 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run build",
-    "build": "webpack --mode production",
+    "vscode:prepublish": "npm run build:native && npm run build",
+    "build": "webpack --mode production && npm run copy:native",
+    "build:native": "cd native && npx napi build --release --platform && cd ..",
+    "copy:native": "node -e \"const fs=require('fs'),p=require('path');const src=p.join('native','fast-git-graph-native.linux-x64-gnu.node');const dst=p.join('out','fast-git-graph-native.linux-x64-gnu.node');if(fs.existsSync(src)){fs.copyFileSync(src,dst);console.log('Native module copied to out/')}else{console.log('Native module not found, skipping copy')}\"",
     "watch": "webpack --mode development --watch",
     "compile": "tsc -p ./",
-    "lint": "eslint src/ --ext .ts"
+    "lint": "eslint src/ --ext .ts",
+    "test": "node tests/run.js",
+    "test:native": "cd native && cargo test && cd .."
   },
   "devDependencies": {
+    "@napi-rs/cli": "^3.5.1",
     "@types/node": "^18.0.0",
     "@types/vscode": "^1.74.0",
     "css-loader": "^6.8.0",
