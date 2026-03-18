@@ -1,0 +1,152 @@
+{
+  "name": "fast-git-graph",
+  "displayName": "Fast Git Graph",
+  "description": "High-performance Git Graph viewer - visualize your repository's commit history with blazing speed",
+  "version": "0.1.0",
+  "publisher": "tktcorporation",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "git",
+    "graph",
+    "log",
+    "history",
+    "performance"
+  ],
+  "activationEvents": [
+    "onCommand:fast-git-graph.view",
+    "workspaceContains:.git"
+  ],
+  "main": "./out/extension.js",
+  "icon": "media/icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "fast-git-graph.view",
+        "title": "View Git Graph",
+        "category": "Fast Git Graph",
+        "icon": {
+          "light": "media/cmd-icon-light.svg",
+          "dark": "media/cmd-icon-dark.svg"
+        }
+      },
+      {
+        "command": "fast-git-graph.fetch",
+        "title": "Fetch from Remote(s)",
+        "category": "Fast Git Graph"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Fast Git Graph",
+      "properties": {
+        "fast-git-graph.maxCommits": {
+          "type": "number",
+          "default": 500,
+          "description": "Maximum number of commits to initially load per page"
+        },
+        "fast-git-graph.graph.colours": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "#0085d9",
+            "#d9008f",
+            "#00d960",
+            "#d98500",
+            "#a300d9",
+            "#00d9cc",
+            "#d90000",
+            "#7fd900"
+          ],
+          "description": "Branch colours for the graph"
+        },
+        "fast-git-graph.graph.style": {
+          "type": "string",
+          "enum": [
+            "rounded",
+            "angular"
+          ],
+          "default": "rounded",
+          "description": "Graph edge style"
+        },
+        "fast-git-graph.dateFormat": {
+          "type": "string",
+          "enum": [
+            "Date & Time",
+            "Date Only",
+            "Relative"
+          ],
+          "default": "Date & Time",
+          "description": "Date format in the commit list"
+        },
+        "fast-git-graph.showCurrentBranchByDefault": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show only the current branch by default"
+        },
+        "fast-git-graph.fetchAvatars": {
+          "type": "boolean",
+          "default": false,
+          "description": "Fetch author avatars from Gravatar"
+        },
+        "fast-git-graph.commitDetailsViewLocation": {
+          "type": "string",
+          "enum": [
+            "Inline",
+            "Tab"
+          ],
+          "default": "Inline",
+          "description": "Where to show commit details"
+        },
+        "fast-git-graph.gitCommandPool": {
+          "type": "number",
+          "default": 8,
+          "description": "Maximum number of concurrent git commands"
+        },
+        "fast-git-graph.submoduleLoadMode": {
+          "type": "string",
+          "enum": [
+            "eager",
+            "lazy",
+            "disabled"
+          ],
+          "default": "lazy",
+          "description": "How to load submodule data: eager (all at start), lazy (on demand), disabled"
+        }
+      }
+    },
+    "menus": {
+      "scm/title": [
+        {
+          "when": "scmProvider == git",
+          "command": "fast-git-graph.view",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "compile": "tsc -p ./",
+    "lint": "eslint src/ --ext .ts"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.74.0",
+    "css-loader": "^6.8.0",
+    "style-loader": "^3.3.0",
+    "ts-loader": "^9.4.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.0"
+  }
+}
